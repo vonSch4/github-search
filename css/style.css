@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+p {
+  width: 50%;
+}
+
 .main {
   position: relative;
   display: flex;
@@ -15,6 +19,10 @@
   padding: 65px;
 }
 
+.search-container {
+  margin-bottom: 260px;
+}
+
 .search-input {
   font-size: 40px;
   height: 50px;
@@ -23,11 +31,54 @@
   padding: 10px 30px;
 }
 
+.hint-container {
+  position: absolute;
+}
+
 .hint-card {
+  cursor: pointer;
   background-color: antiquewhite;
   border: 1px solid black;
   height: 30px;
-  font-size: 25px;
   width: 500px;
+  font-size: 25px;
   padding: 10px 30px;
+}
+
+.added-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: blueviolet;
+  vertical-align: bottom;
+  border: 1px solid black;
+  height: 100px;
+  width: 500px;
+  font-size: 25px;
+  padding: 10px 30px;
+}
+
+.added-card::after {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 90px;
+  height: 5px;
+  background-color: red;
+  right: 5%;
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+.added-card::before {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 90px;
+  height: 5px;
+  background-color: red;
+  right: 5%;
+  top: 50%;
+  transform: rotate(-45deg);
 }
