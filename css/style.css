@@ -4,16 +4,30 @@
 }
 
 .main {
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: grey;
   min-height: 100vh;
   min-width: 550px;
+  padding: 65px;
 }
 
 .search-input {
   font-size: 40px;
   height: 50px;
   width: 500px;
+  border-radius: 10px;
+  padding: 10px 30px;
+}
+
+.hint-card {
+  background-color: antiquewhite;
+  border: 1px solid black;
+  height: 30px;
+  font-size: 25px;
+  width: 500px;
+  padding: 10px 30px;
 }
