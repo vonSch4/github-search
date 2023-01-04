@@ -3,10 +3,6 @@
   padding: 0;
 }
 
-p {
-  width: 50%;
-}
-
 .main {
   position: relative;
   display: flex;
@@ -47,9 +43,12 @@ p {
 
 .added-card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-areas:
+    'a d'
+    'b d'
+    'c d';
+  grid-template-columns: 1fr 90px;
   background-color: blueviolet;
   vertical-align: bottom;
   border: 1px solid black;
@@ -59,26 +58,33 @@ p {
   padding: 10px 30px;
 }
 
-.added-card::after {
-  position: absolute;
-  display: block;
-  content: '';
-  width: 90px;
-  height: 5px;
-  background-color: red;
-  right: 5%;
-  top: 50%;
-  transform: rotate(45deg);
+.close-btn {
+  position: relative;
+  grid-area: d;
+  cursor: pointer;
 }
 
-.added-card::before {
+.close-btn::after {
   position: absolute;
   display: block;
   content: '';
   width: 90px;
   height: 5px;
   background-color: red;
-  right: 5%;
+  right: -50%;
   top: 50%;
-  transform: rotate(-45deg);
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-btn::before {
+  position: absolute;
+  display: block;
+  content: '';
+  width: 90px;
+  height: 5px;
+  background-color: red;
+  right: -50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }

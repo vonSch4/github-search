@@ -1,8 +1,22 @@
 const hintContainer = document.querySelector(".hint-container");
-const addedCardsContainer = document.querySelector(".added-cards-container");
+const addCardsContainer = document.querySelector(".added-cards-container");
 const input = document.querySelector("#search");
 
-const debouncedGetValue = debounce(getValue, 600);
+const debouncedGetValue = debounce(getResponce, 600);
+
+input.addEventListener("input", () => {
+  debouncedGetValue();
+});
+
+hintContainer.addEventListener("click", (evt) => {
+  addCard(evt.target);
+});
+
+addCardsContainer.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains("close-btn")) {
+    removeCard(evt.target.parentElement);
+  }
+});
 
 function debounce(callback, ms) {
   let timer;
@@ -10,30 +24,25 @@ function debounce(callback, ms) {
   return function (...args) {
     clearTimeout(timer);
 
-    return new Promise((resolve) => {
-      timer = setTimeout(() => {
-        resolve(callback.call(this, ...args));
-      }, ms);
-    });
+    timer = setTimeout(() => {
+      callback.call(this, ...args);
+    }, ms);
   };
 }
 
-function getValue() {
-  return new Promise((resolve) => {
-    const value = input.value;
+function getResponce() {
+  const value = input.value;
 
-    if (value) {
-      fetch(`https://api.github.com/search/repositories?q=${value}&per_page=5`)
-        .then((responce) => responce.json())
-        .then((result) => {
-          createHintCard(result.items);
-          resolve(result.items);
-        })
-        .catch(console.log);
-    } else {
-      hintContainer.innerHTML = "";
-    }
-  });
+  if (value) {
+    fetch(`https://api.github.com/search/repositories?q=${value}&per_page=5`)
+      .then((responce) => responce.json())
+      .then((result) => {
+        createHintCard(result.items);
+      })
+      .catch(console.log);
+  } else {
+    hintContainer.innerHTML = "";
+  }
 }
 
 function createHintCard(responce) {
@@ -53,12 +62,13 @@ function createHintCard(responce) {
 }
 
 function addCard(card) {
-  addedCardsContainer.insertAdjacentHTML(
+  addCardsContainer.insertAdjacentHTML(
     "afterbegin",
     `<div class='added-card'>
       <p>Name: ${card.innerHTML}</p>
       <p>Owner: ${card.dataset.owner}</p>
       <p>Stars: ${card.dataset.stars}</p>
+      <p class='close-btn'></p>
     </div>
     `
   );
@@ -66,10 +76,6 @@ function addCard(card) {
   hintContainer.innerHTML = "";
 }
 
-input.addEventListener("input", () => {
-  debouncedGetValue();
-});
-
-hintContainer.addEventListener("click", (evt) => {
-  addCard(evt.target);
-});
+function removeCard(card) {
+  card.remove();
+}
