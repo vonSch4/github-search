@@ -55,6 +55,7 @@ function createHintCard(responce) {
     card.textContent = item.name;
     card.dataset.owner = item.owner.login;
     card.dataset.stars = item.stargazers_count;
+    card.tabIndex = 1;
     fragment.append(card);
   });
 
