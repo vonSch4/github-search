@@ -34,7 +34,9 @@ function getResponce() {
   const value = input.value;
 
   if (value) {
-    fetch(`https://api.github.com/search/repositories?q=${value}&per_page=5`)
+    fetch(`https://api.github.com/search/repositories?q=${value}&per_page=5`, {
+      headers: { accept: "application/vnd.github+json" },
+    })
       .then((responce) => responce.json())
       .then((result) => {
         createHintCard(result.items);
