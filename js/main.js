@@ -2,10 +2,10 @@ const hintContainer = document.querySelector(".hint-container");
 const addCardsContainer = document.querySelector(".added-cards-container");
 const input = document.querySelector("#search");
 
-const debouncedGetValue = debounce(getResponce, 600);
+const debouncedGetResponce = debounce(getResponce, 500);
 
 input.addEventListener("input", () => {
-  debouncedGetValue();
+  debouncedGetResponce();
 });
 
 hintContainer.addEventListener("click", (evt) => {
