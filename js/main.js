@@ -1,22 +1,14 @@
-const hintContainer = document.querySelector(".hint-container");
-const addCardsContainer = document.querySelector(".added-cards-container");
-const input = document.querySelector("#search");
+const input = document.querySelector(".search__input");
+const hintContainer = document.querySelector(".search__hint-container");
+const cardsContainer = document.querySelector(".cards");
 
-const debouncedGetResponce = debounce(getResponce, 500);
+const debouncedGetResponse = debounce(getResponse, 500);
 
-input.addEventListener("input", () => {
-  debouncedGetResponce();
-});
+input.addEventListener("input", debouncedGetResponse);
 
-hintContainer.addEventListener("click", (evt) => {
-  addCard(evt.target);
-});
+hintContainer.addEventListener("click", addCard);
 
-addCardsContainer.addEventListener("click", (evt) => {
-  if (evt.target.classList.contains("close-btn")) {
-    removeCard(evt.target.parentElement);
-  }
-});
+cardsContainer.addEventListener("click", removeCard);
 
 function debounce(callback, ms) {
   let timer;
@@ -30,30 +22,31 @@ function debounce(callback, ms) {
   };
 }
 
-function getResponce() {
+function getResponse() {
   const value = input.value;
 
-  if (value) {
-    fetch(`https://api.github.com/search/repositories?q=${value}&per_page=5`, {
-      headers: { accept: "application/vnd.github+json" },
-    })
-      .then((responce) => responce.json())
-      .then((result) => {
-        createHintCard(result.items);
-      })
-      .catch(console.log);
-  } else {
-    hintContainer.innerHTML = "";
+  if (!value) {
+    hintContainer.textContent = "";
+    return;
   }
+
+  fetch(`https://api.github.com/search/repositories?q=${value}&per_page=5`, {
+    headers: { accept: "application/vnd.github+json" },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      createHintCard(data.items);
+    })
+    .catch(console.log);
 }
 
-function createHintCard(responce) {
+function createHintCard(data) {
   const fragment = document.createDocumentFragment();
-  hintContainer.innerHTML = "";
+  hintContainer.textContent = "";
 
-  responce.forEach((item) => {
+  data.forEach((item) => {
     const card = document.createElement("div");
-    card.classList.add("hint-card");
+    card.classList.add("search__hint-card");
     card.textContent = item.name;
     card.dataset.owner = item.owner.login;
     card.dataset.stars = item.stargazers_count;
@@ -64,21 +57,29 @@ function createHintCard(responce) {
   hintContainer.append(fragment);
 }
 
-function addCard(card) {
-  addCardsContainer.insertAdjacentHTML(
+function addCard(evt) {
+  const card = evt.target;
+
+  cardsContainer.insertAdjacentHTML(
     "afterbegin",
-    `<div class='added-card'>
-      <p>Name: ${card.innerHTML}</p>
+    `<div class='card'>
+      <p>Name: ${card.textContent}</p>
       <p>Owner: ${card.dataset.owner}</p>
       <p>Stars: ${card.dataset.stars}</p>
-      <p class='close-btn'></p>
+      <span class='btn-close'></span>
     </div>
     `
   );
+
   input.value = "";
-  hintContainer.innerHTML = "";
+  hintContainer.textContent = "";
 }
 
-function removeCard(card) {
-  card.remove();
+function removeCard(evt) {
+  const target = evt.target;
+  const card = target.parentElement;
+
+  if (target.classList.contains("btn-close")) {
+    card.remove();
+  }
 }

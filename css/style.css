@@ -16,11 +16,11 @@
   padding: 65px;
 }
 
-.search-container {
+.search {
   margin-bottom: 260px;
 }
 
-.search-input {
+.search__input {
   font-size: 40px;
   height: 50px;
   width: 500px;
@@ -28,15 +28,15 @@
   border:1px solid black
 }
 
-.search-input:focus-visible {
+.search__input:focus-visible {
   outline: none;
 }
 
-.hint-container {
+.search__hint-container {
   position: absolute;
 }
 
-.hint-card {
+.search__hint-card {
   cursor: pointer;
   background-color: lightgrey;
   border: 1px solid black;
@@ -46,11 +46,11 @@
   padding: 10px 30px;
 }
 
-.hint-card:hover {
+.search__hint-card:hover {
   opacity: 0.7;
 }
 
-.added-card {
+.card {
   position: relative;
   display: grid;
   grid-template-areas:
@@ -67,13 +67,13 @@
   padding: 10px 30px;
 }
 
-.close-btn {
+.btn-close {
   position: relative;
   grid-area: d;
   cursor: pointer;
 }
 
-.close-btn::after {
+.btn-close::after {
   position: absolute;
   display: block;
   content: '';
@@ -86,7 +86,7 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.close-btn::before {
+.btn-close::before {
   position: absolute;
   display: block;
   content: '';
